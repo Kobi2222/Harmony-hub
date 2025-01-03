@@ -45,7 +45,29 @@ PostgreSQL
 Redis
 Mailcatcher
 
+# **Configuration**
+Before running the application, ensure your environment variables are properly configured.
 
+Copy the .env.example file to .env:
+
+bash
+Copy code
+cp .env.example .env
+Set up your database connection in .env with your PostgreSQL credentials:
+
+bash
+Copy code
+DATABASE_URL=postgres://username:password@localhost:5432/harmonyhub_development
+Set the secret key for your Rails app (for sessions, cookies, etc.):
+
+bash
+Copy code
+SECRET_KEY_BASE=your-secret-key
+Set up the Redis URL for background jobs (optional but recommended):
+
+bash
+Copy code
+REDIS_URL=redis://localhost:6379/0
 
 # **Database Setup**
 To set up the database, follow these steps:
@@ -82,5 +104,18 @@ bash
 Copy code
 mailcatcher
 Once started, you can access the mail catcher interface at http://127.0.0.1:1080.
+
+
+# **Test Suite**
+To run the test suite, Harmony Hub uses RSpec for testing. You can run all tests with the following command:
+
+bash
+Copy code
+bundle exec rspec
+This will run all unit, integration, and system tests. To run a specific test file:
+
+bash
+Copy code
+bundle exec rspec path/to/test/file.rb
 
 This will allow you to view any emails sent by the application, including user registration confirmation, order notifications, etc.
