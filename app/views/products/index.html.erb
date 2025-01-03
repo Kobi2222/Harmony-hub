@@ -1,0 +1,35 @@
+<!-- app/views/products/index.html.erb -->
+<div class="new-admin-container">
+  <h1>All Products</h1>
+  <div class="buttons">
+    <%= link_to 'New Product', new_product_path, class: "btn btn-primary" %>
+  </div>
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock Quantity</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.description %></td>
+          <td><%= number_to_currency(product.price) %></td>
+          <td><%= product.stock_quantity %></td>
+          <td><%= product.category.name %></td>
+          <td>
+            <%= link_to 'View', product_path(product), class: 'btn btn-secondary' %>
+            <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-primary' %>
+            <%= link_to 'Destroy', product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

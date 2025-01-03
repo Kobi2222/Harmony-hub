@@ -1,0 +1,10 @@
+<p>Dear <%= @order.user.name %>,</p>
+<p>Thank you for your order. Here are the details:</p>
+<ul>
+    <li>Order ID: <%= @order.id %></li>
+    <li>Shipping Address: <%= @order.shipping_address %></li>
+    <li>Billing Address: <%= @order.billing_address %></li>
+    <li>Total Price: <%= number_to_currency(@order.total_price, unit: "$") %></li>
+</ul>
+<p>We will update you as soon as your order is on its way.</p>
+<p>Thank you for shopping with us!</p>

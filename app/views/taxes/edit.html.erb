@@ -1,0 +1,28 @@
+<h1>Edit Tax Rate</h1>
+
+<div class="form-container">
+    <%= form_with model: @tax_rate, url: tax_path(@tax_rate), method: :patch, local: true do |form| %>
+        <div class="field">
+            <%= form.label :province %>
+            <%= form.text_field :province %>
+        </div>
+        <div class="field">
+            <%= form.label :rate %>
+            <%= form.number_field :rate, step: 0.01 %>
+        </div>
+        <%= form.submit 'Update Tax Rate', class: 'btn btn-primary' %>
+    <% end %>
+</div>
+
+<div class="form-container">
+    <h1>Province Tax Rates</h1>
+
+    <% TaxRate.province_tax_rates.each do |province, rates| %>
+        <div class="province-tax-rates">
+            <h2><%= province %></h2>
+            <p>GST Rate: <%= number_to_percentage(rates[:gst] * 100, precision: 2) %></p>
+            <p>PST Rate: <%= number_to_percentage(rates[:pst] * 100, precision: 2) %></p>
+            <p>HST Rate: <%= number_to_percentage(rates[:hst] * 100, precision: 2) %></p>
+        </div>
+    <% end %>
+</div>

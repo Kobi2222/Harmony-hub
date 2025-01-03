@@ -1,0 +1,22 @@
+<!-- app/views/categories/index.html.erb -->
+<div class="categories-container">
+  <h1>Product Categories</h1>
+
+  <!-- Button to add new category -->
+  <div class="buttons">
+    <%= link_to 'New Category', new_category_path, class: "btn btn-primary" %>
+  </div>
+
+  <!-- List of categories -->
+  <div class="category-list">
+    <% @categories.each do |category| %>
+      <div class="category-item">
+        <h3><%= category.name %></h3>
+        <!-- Link to edit category -->
+        <%= link_to 'Edit', edit_category_path(category), class: "btn btn-secondary" %>
+        <!-- Link to delete category -->
+        <%= link_to 'Delete', category_path(category), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<!-- app/views/orders/show.html.erb -->
+<div class="order-details">
+    <h1>Order Details</h1>
+
+    <div class="order-info">
+        <p><strong>Order ID:</strong> <%= @order.id %></p>
+        <p><strong>Status:</strong> <%= @order.status %></p>
+        <p><strong>Order Date:</strong> <%= @order.created_at.strftime('%Y-%m-%d') %></p>
+    </div>
+
+    <div class="address-info">
+        <h2>Address Information</h2>
+        <p><strong>Shipping Address:</strong> <%= @order.shipping_address %></p>
+        <p><strong>Billing Address:</strong> <%= @order.billing_address %></p>
+    </div>
+
+    <div class="product-list">
+        <h2>Products in Order</h2>
+        <div class = "form-container">
+            <% if @order.order_items.any? %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @order.order_items.each do |item| %>
+                            <tr>
+                                <td><%= item.product.name %></td>
+                                <td><%= item.quantity %></td>
+                                <td><%= number_to_currency(item.product.price) %></td>
+                                <td><%= number_to_currency(item.quantity * item.product.price) %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% else %>
+                <p>No products in this order.</p>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="order-total">
+        <p><strong>Tax Rate:</strong> <%= number_to_currency(@tax_rate.rate) %></p>
+        <p><strong>Total Order Price:</strong> <%= number_to_currency(@order.total_price) %></p>
+        <p><strong>Total Price:</strong> <%= number_to_currency(@order.total_price + @tax_rate.rate) %></p>
+    </div>
+
+    <div class="actions">
+        <% if current_user.is_admin %>
+            <br><br>
+            <div class="order-status">
+                <h3>Change Order Status</h3>
+                <%= form_with url: update_order_status_path(@order), method: :patch, local: true do |form| %>
+                    <%= form.select :status, Order::STATUSES.keys, selected: @order.status %>
+                    <%= form.submit 'Update Status', class: 'btn btn-primary' %>
+                <% end %>
+            </div>
+            <br><br>
+            <div class="tax-edit">
+                <h3>Edit Tax Rate</h3>
+                <%= link_to 'Edit Tax Rate', edit_tax_path(@tax_rate), class: 'btn btn-primary' %>
+            </div>
+            <br><br>
+        <% end %>
+
+        <%= link_to 'Back to Orders', orders_path, class: 'btn btn-secondary' %>
+    </div>
+</div>

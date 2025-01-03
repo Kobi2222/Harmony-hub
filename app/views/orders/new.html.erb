@@ -1,0 +1,80 @@
+<div class="form-container">
+    <h1>Checkout</h1>
+
+    <%= form_with model: @order, url: orders_path, local: true, id: 'order-form' do |form| %>
+        <div class="field">
+            <%= form.label :shipping_address, "Shipping Address" %>
+            <%= form.text_area :shipping_address %>
+        </div>
+        <div class="field">
+            <%= form.label :billing_address, "Billing Address" %>
+            <%= form.text_area :billing_address %>
+        </div>
+        <div class="field">
+            <%= form.label :payment_method, "Payment Method" %>
+            <%= form.select :payment_method, ['Stripe'], id: 'payment-method' %>
+        </div>
+
+        <!-- Stripe fields -->
+        <div class="field" id="stripe-fields">
+            <div id="card-element"></div>
+        </div>
+
+        <div class="field">
+            <%= form.submit 'Complete Order', class: 'btn btn-primary', id: 'complete-order' %>
+        </div>
+    <% end %>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stripe = Stripe('pk_test_51P5M0iFDcZUJTZvIPe3FtmVunlYQjV3V4zQUyMAbZPVkU9ny8ibxB61NmeVwfHoX03v05VKX14eOmcIe287YIJv600DFRxvHgU');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        const form = document.querySelector('#order-form');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+            });
+
+            if (error) {
+                // Display the error message to the user
+                alert(error.message);
+                return;
+            }
+
+            // Send the payment method ID and order details to the server
+            fetch('<%= orders_path %>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': '<%= form_authenticity_token %>',
+                },
+                body: JSON.stringify({
+                    order: {
+                        shipping_address: form.elements['order_shipping_address'].value,
+                        billing_address: form.elements['order_billing_address'].value,
+                        payment_method: form.elements['order_payment_method'].value,
+                        payment_method_id: paymentMethod.id,
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == '200') {
+                    alert(data.message);
+                    window.location.href = data.url;
+                } else {
+                    // Display the error message to the user
+                    alert(data.message);
+                }
+            });
+        });
+    });
+</script>

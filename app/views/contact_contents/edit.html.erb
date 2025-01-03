@@ -1,0 +1,29 @@
+<!-- app/views/contact_contents/edit.html.erb -->
+<div class="edit-contact-container">
+  <h1>Edit Contact Page</h1>
+
+  <%= form_with(model: @contact_content, url: contact_content_path(@contact_content), method: :patch) do |form| %>
+    <% if @contact_content.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@contact_content.errors.count, "error") %> prohibited this contact content from being saved:</h2>
+
+        <ul>
+        <% @contact_content.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :content %>
+      <%= form.text_area :content, rows: 10, cols: 50, class: "form-control" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Update Contact Content", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Back', root_path %>
+</div>

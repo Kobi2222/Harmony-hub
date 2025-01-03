@@ -1,0 +1,36 @@
+<div class="orders-container">
+    <h1>All Orders</h1>
+
+    <div class= "form-container">
+        <% if @orders.empty? %>
+            <p>You have not placed any orders yet.</p>
+        <% else %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @orders.each do |order| %>
+                        <tr>
+                            <td><%= order.id %></td>
+                            <td><%= order.created_at.strftime("%d/%m/%Y") %></td>
+                            <td><%= order.status %></td>
+                            <td><%= number_to_currency(order.total_price) %></td>
+                            <td>
+                                <%= link_to 'View', order_path(order), class: 'btn btn-secondary' %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>
+
+        <%= link_to 'Back to Products', products_page_path, class: 'btn btn-secondary' %>
+    </div>
+</div>

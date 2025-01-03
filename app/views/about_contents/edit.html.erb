@@ -1,0 +1,29 @@
+<!-- app/views/about_contents/edit.html.erb -->
+<div class="edit-about-container">
+  <h1>Edit About Page</h1>
+
+  <%= form_with(model: @about_content, url: about_content_path(@about_content), method: :patch) do |form| %>
+    <% if @about_content.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@about_content.errors.count, "error") %> prohibited this about content from being saved:</h2>
+
+        <ul>
+        <% @about_content.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :content %>
+      <%= form.text_area :content, rows: 10, cols: 50, class: "form-control" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Update About Content", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Back', root_path %>
+</div>

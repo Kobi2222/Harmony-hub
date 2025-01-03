@@ -1,0 +1,11 @@
+<!-- app/views/admin/dashboard/index.html.erb -->
+<h1>Welcome to Admin Dashboard</h1>
+<div class="buttons">
+    <%= link_to "Add / Edit / Delete Products", products_path, class: "btn btn-primary" %>
+    <br><br>
+    <%= link_to "List of Categories", categories_path, class: "btn btn-primary" %>
+    <br><br>
+    <%= link_to "Edit Contact Page", edit_contact_content_path(ContactContent.first_or_initialize), class: "btn btn-primary" %>
+    <br><br>
+    <%= link_to "Edit About Page", edit_about_content_path(AboutContent.first_or_initialize), class: "btn btn-primary" %>
+</div>

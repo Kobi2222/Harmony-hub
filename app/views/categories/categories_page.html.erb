@@ -1,0 +1,21 @@
+<!-- app/views/categories/index.html.erb -->
+<div class="categories-container">
+  <h1>Product Categories</h1>
+
+  <div class="category-list">
+    <% @categories.each do |category| %>
+      <div class="category-item">
+        <h3><%= category.name %></h3>
+        <table class="product-table">
+          <tbody>
+            <% category.products.each do |product| %>
+              <tr>
+                <td><%= link_to product.name, product_path(product) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>

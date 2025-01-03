@@ -1,0 +1,41 @@
+<div class="product-details">
+
+    <h1>Shopping Cart</h1>
+
+    <% if @products.empty? %>
+        <p>Your cart is empty.</p>
+    <% else %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @products.each do |product| %>
+                    <tr>
+                        <td><%= product.name %></td>
+                        <td>
+                            <%= form_with url: cart_update_path(product), method: :patch, local: true do |form| %>
+                                <%= form.number_field :quantity, value: @cart[product.id.to_s], min: 1, class: "form-control" %>
+                                <%= form.submit "Update", class: "btn btn-primary" %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <%= link_to 'Remove', cart_remove_path(product), method: :delete, class: 'btn btn-danger' %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% end %>
+
+    <div class = "buttons">
+        <br><br>
+        <%= link_to 'Continue Shopping', products_page_path, class: 'btn btn-secondary' %>
+        <br><br>
+        <%= link_to 'Proceed to Checkout', new_order_path, class: 'btn btn-primary' %>
+    </div>
+</div>

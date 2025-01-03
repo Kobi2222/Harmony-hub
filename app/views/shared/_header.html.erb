@@ -1,0 +1,23 @@
+<div class="header-container">
+    <a href="/" style="text-decoration: none"><h1 class="main-heading">Hub Harmony</h1></a>
+    <p>Welcome to Harmony Hub, the premier online destination for music lovers!</p>
+    <div class="buttons">
+        <% if user_signed_in? %>
+            <% if current_user.is_admin %>
+                <%= link_to "Admin Dashboard", admin_dashboard_show_path, class: "btn btn-primary" %>
+            <% end %>
+            <%= link_to "Logout", destroy_user_session_path, class: "btn btn-danger" %>
+        <% else %>
+            <%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
+        <% end %>
+        <%= link_to "Products", products_page_path, class: "btn btn-primary" %>
+        <%= link_to "Categories", categories_page_path, class: "btn btn-primary" %>
+        <%= link_to "Cart", cart_path, class: "btn btn-danger" %>
+        <% if user_signed_in? %>
+            <%= link_to "Orders", orders_path, class: "btn btn-primary" %>
+            <% if current_user.is_admin %>
+                <%= link_to "All Orders", all_orders_path, class: "btn btn-primary" %>
+            <% end %>
+        <% end %>
+    </div>
+</div>
